@@ -48,6 +48,11 @@ app.get('/projects', (req, res) => {
     res.render('projects', { title });
 });
 
+app.get('/categories', (req, res) => {
+    const title = 'Categories';
+    res.render('categories', { title });
+});
+
 //define a route handler for GET requests to root URL ("/")
 //req = requests to app
 //res = responses to requests

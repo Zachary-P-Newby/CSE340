@@ -1,31 +1,180 @@
-html,
-body {
-    background-color: lightblue;
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 20px;
+/*
+Made with Duck.ai
+*/
+
+/* Color palette
+   Blue:   #0b3d91
+   Orange: #f28c28
+   White:  #ffffff
+*/
+
+:root {
+    --blue: #0b3d91;
+    --dark-blue: #082b66;
+    --orange: #f28c28;
+    --light-orange: #fff3e0;
+    --white: #ffffff;
+    --text: #263238;
+    --light-gray: #f4f7fb;
+}
+
+* {
+    box-sizing: border-box;
 }
 
 body {
-    nav {
-        ul {
-            list-style-type: none;
-            padding: 0;
-        }
+    min-height: 100vh;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--light-gray);
+    color: var(--text);
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.6;
+}
 
-        li {
-            display: inline;
-            margin-right: 15px;
-        }
+/* Navigation */
 
-        a {
-            text-decoration: none;
-            color: #333;
-            font-weight: bold;
+nav {
+    background-color: var(--blue);
+    border-bottom: 5px solid var(--orange);
+    padding: 0.75rem 1rem;
+}
 
-            &:hover {
-                color: #0066cc;
-            }
-        }
+nav ul {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    list-style: none;
+}
+
+nav a {
+    display: block;
+    padding: 0.6rem 1rem;
+    border-radius: 5px;
+    color: var(--white);
+    font-weight: bold;
+    text-decoration: none;
+}
+
+nav a:hover,
+nav a:focus {
+    background-color: var(--orange);
+    color: var(--dark-blue);
+}
+
+/* Main content */
+
+main {
+    width: min(90%, 1000px);
+    margin: 2.5rem auto;
+    padding: 2rem;
+    flex: 1;
+    background-color: var(--white);
+    border-top: 6px solid var(--orange);
+    border-radius: 8px;
+    box-shadow: 0 3px 12px rgb(0 0 0 / 10%);
+}
+
+h1 {
+    margin-top: 0;
+    color: var(--blue);
+    font-size: 2.4rem;
+    text-align: center;
+}
+
+h2 {
+    color: var(--dark-blue);
+}
+
+p {
+    font-size: 1.05rem;
+}
+
+/* Lists */
+
+main ul {
+    padding-left: 1.5rem;
+}
+
+main li {
+    margin-bottom: 0.8rem;
+}
+
+main li::marker {
+    color: var(--orange);
+}
+
+/* Home page logo */
+
+.main-logo {
+    display: block;
+    max-width: 100%;
+    width: 450px;
+    height: auto;
+    margin: 2rem auto 0;
+}
+
+/* Organization logos */
+
+main li img {
+    width: 70px;
+    height: 70px;
+    margin-right: 1rem;
+    border: 2px solid var(--orange);
+    border-radius: 8px;
+    object-fit: contain;
+    vertical-align: middle;
+    background-color: var(--white);
+}
+
+main li strong {
+    color: var(--blue);
+    margin-right: 0.35rem;
+}
+
+/* Footer */
+
+footer {
+    padding: 1rem;
+    background-color: var(--dark-blue);
+    color: var(--white);
+    text-align: center;
+}
+
+footer p {
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+/* Responsive layout */
+
+@media (max-width: 600px) {
+    nav ul {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.25rem;
+    }
+
+    nav a {
+        text-align: center;
+    }
+
+    main {
+        width: 94%;
+        margin: 1.5rem auto;
+        padding: 1.25rem;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    main li img {
+        display: block;
+        margin-bottom: 0.5rem;
     }
 }
