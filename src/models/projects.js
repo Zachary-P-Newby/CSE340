@@ -3,7 +3,7 @@ import db from './db.js';
 const getAllProjects = async () => {
     const query = `
         SELECT
-            p.id,
+            p.project_id,
             p.organization_id,
             o.name AS organization_name,
             p.title,
