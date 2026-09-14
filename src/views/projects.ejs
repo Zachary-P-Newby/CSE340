@@ -4,11 +4,11 @@
             <%= title %>
         </h1>
         <h2>Upcoming Service Projects</h2>
-        
         <ul>
         
         <%projects.forEach(project => {%>
-            <li><strong><%=project.project_date%></strong>: <%=project.title%> (<%=project.organization_name%>)</li>
+            <%const id_moved_to_zero_index = project.organization_id-1;%>
+            <li><strong><%=project.project_date%></strong>: <%=project.title%> (<%=organizations[id_moved_to_zero_index].organization_name%>)</li>
         <%});%>
         
         </ul>

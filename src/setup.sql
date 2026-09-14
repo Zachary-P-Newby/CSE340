@@ -1,6 +1,6 @@
 create table organizations (
-id SERIAL PRIMARY KEY,
-name VARCHAR(150) UNIQUE NOT NULL,
+organization_id SERIAL PRIMARY KEY,
+organization_name VARCHAR(150) UNIQUE NOT NULL,
 description text NOT NULL,
 contact_email VARCHAR(255) NOT NULL,
 logo_filename VARCHAR(255) NOT NULL
@@ -16,22 +16,26 @@ description text NOT NULL
 
 CREATE TABLE projects (
     project_id SERIAL PRIMARY KEY,
-    organization_id INTEGER NOT NULL REFERENCES organizations(id),
-	organization_name VARCHAR(150) NOT NULL REFERENCES organizations(name),
+	organization_id INTEGER NOT NULL,
     title VARCHAR(25) NOT NULL,
     description TEXT,
     location TEXT NOT NULL,
-    project_date DATE NOT NULL
+    project_date DATE NOT NULL,
+
+	CONSTRAINT project_organizer
+	FOREIGN KEY (organization_id) REFERENCES organizations(organization_id)
 );
 
 
 CREATE TABLE project_has_category(
-project_id INT REFERENCES projects(project_id) NOT NULL,
-category_id INT REFERENCES categories(category_id) NOT NULL,
+project_id INT NOT NULL,
+category_id INT NOT NULL,
+FOREIGN KEY (project_id) REFERENCES projects(project_id),
+FOREIGN KEY (category_id) REFERENCES categories(category_id),
 CONSTRAINT project_category_pk PRIMARY KEY (project_id, category_id)
 );
 
-INSERT INTO organizations (name, description, contact_email, logo_filename)
+INSERT INTO organizations (organization_name, description, contact_email, logo_filename)
 VALUES 
 ('BrightFuture Builders', 'A nonprofit focused on improving community infrastructure through sustainable construction projects.', 'info@brightfuturebuilders.org', 'brightfuture-logo.png'),
 ('GreenHarvest Growers', 'An urban farming collective promoting food sustainability and education in local neighborhoods.','contact@greenharvest.org','greenharvest-logo.png'),
@@ -50,135 +54,117 @@ VALUES
 
 INSERT INTO projects (
     organization_id,
-    organization_name,
     title,
     description,
     location,
     project_date
 )
-SELECT
-    o.id,
-    p.organization_name,
-    p.title,
-    p.description,
-    p.location,
-    p.project_date
-FROM (
     VALUES
         (
-            'BrightFuture Builders',
+            1,
             'School Supply Drive',
             'Collect and distribute school supplies to local students.',
             'Central Community Center',
             DATE '2026-09-20'
         ),
         (
-            'BrightFuture Builders',
+			1,
             'Youth Skills Workshop',
             'Teach practical skills and career preparation to young people.',
             'BrightFuture Learning Hub',
             DATE '2026-10-04'
         ),
         (
-            'BrightFuture Builders',
+			1,
             'Park Equipment Repair',
             'Repair benches, signs, and playground equipment in the park.',
             'Riverside Park',
             DATE '2026-10-18'
         ),
         (
-            'BrightFuture Builders',
+            1,
             'Senior Home Repairs',
             'Complete minor repairs and safety improvements for seniors.',
             'Northside Neighborhood',
             DATE '2026-11-01'
         ),
         (
-            'BrightFuture Builders',
+            1,
             'Winter Shelter Support',
             'Prepare supplies and facilities for the winter shelter program.',
             'Hope Street Shelter',
             DATE '2026-11-15'
         ),
         (
-            'GreenHarvest Growers',
+            2,
             'Community Garden Setup',
             'Prepare garden beds and plant vegetables for the community.',
             'Westside Community Garden',
             DATE '2026-09-27'
         ),
         (
-            'GreenHarvest Growers',
+            2,
             'Food Bank Harvest',
             'Harvest and deliver fresh produce to the local food bank.',
             'GreenHarvest Farm',
             DATE '2026-10-11'
         ),
         (
-            'GreenHarvest Growers',
+            2,
             'Compost Workshop',
             'Teach residents how to create and maintain home compost systems.',
             'Maple Recreation Center',
             DATE '2026-10-25'
         ),
         (
-            'GreenHarvest Growers',
+            2,
             'Tree Planting Day',
             'Plant native trees to improve shade and local biodiversity.',
             'Eastview Park',
             DATE '2026-11-08'
         ),
         (
-            'GreenHarvest Growers',
+            2,
             'Harvest Celebration',
             'Celebrate the growing season with food, education, and activities.',
             'Farmers Market Plaza',
             DATE '2026-11-22'
         ),
         (
-            'UnityServe Volunteers',
+            3,
             'Neighborhood Cleanup',
             'Remove litter and improve public spaces across the neighborhood.',
             'Oak Street District',
             DATE '2026-09-21'
         ),
         (
-            'UnityServe Volunteers',
+            3,
             'Meal Service Project',
             'Prepare and serve meals for families in need.',
             'UnityServe Kitchen',
             DATE '2026-10-05'
         ),
         (
-            'UnityServe Volunteers',
+            3,
             'Clothing Donation Drive',
             'Collect and organize clothing donations for local families.',
             'UnityServe Community Hall',
             DATE '2026-10-19'
         ),
         (
-            'UnityServe Volunteers',
+            3,
             'Blood Donation Event',
             'Coordinate a community blood donation event with local clinics.',
             'UnityServe Community Hall',
             DATE '2026-11-02'
         ),
         (
-            'UnityServe Volunteers',
+            3,
             'Holiday Gift Program',
             'Collect and distribute holiday gifts to children in need.',
             'Downtown Service Center',
             DATE '2026-12-06'
-        )
-) AS p(
-    organization_name,
-    title,
-    description,
-    location,
-    project_date
-)
-JOIN organizations AS o
-    ON o.name = p.organization_name;
+        );
 
 INSERT INTO project_has_category (project_id, category_id)
 VALUES
