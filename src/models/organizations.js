@@ -32,7 +32,7 @@ const getOrganizationDetails = async (organizationId) => {
       //the queryParams will be passed in at $1 once it parameterizes the organizationID
       const result = await db.query(query, queryParams);
 
-      // Return the first row of the result set, or null if no rows are found
+      //if the length of rows is greater than 0 return the first row, otherwise return null
       return result.rows.length > 0 ? result.rows[0] : null;
 };
 

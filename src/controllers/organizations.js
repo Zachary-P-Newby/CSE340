@@ -10,11 +10,21 @@ const showOrganizationsPage = async (req, res)=>{
 
 const showOrganizationDetailsPage = async (req, res) => {
     const organizationId = req.params.id;
+
     const organizationDetails = await getOrganizationDetails(organizationId);
     const projects = await getProjectsByOrganizationId(organizationId);
     const title = 'Organization Details';
 
-    res.render('organization', {title, organizationDetails, projects});
+    //if the organization does not exist the getOrganizationDetails will return 'null'
+    //if so, do nothing to trigger 404 error
+    if (organizationDetails == null){
+        res.render('./errors/404', {title});
+    }
+    else{
+        res.render('organization', {title, organizationDetails, projects});
+    }
+
+    
 };
 
 // Export any controller functions
