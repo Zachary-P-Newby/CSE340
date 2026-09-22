@@ -24,8 +24,9 @@ const showProjectDetailsPage = async (req, res) => {
     const projectDetails = await getProjectDetails(ID);
 
     if (projectDetails == null){
-        const title = 'Page Not Found';
-        res.render('./errors/404', {title});
+        return res.status(404).render('errors/404', {
+    title: 'Page Not Found'
+  });
     }else{
         const formattedDate = formatDate(projectDetails.project_date);
     const organizations = await getAllOrganizations();

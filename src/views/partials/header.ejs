@@ -11,6 +11,9 @@
 </head>
 
 <body>
+
+    <header>
+
     <nav>
         <ul>
             <li><a href="/">Home</a></li>
@@ -19,3 +22,18 @@
             <li><a href="/categories">Categories</a></li>
         </ul>
     </nav>
+    <div>
+        <ul class="alert-ul">
+            <% const messages = flash();%>
+                <% Object.keys(messages).forEach(type =>{%>
+                <% if (messages[type].length >0 ){%>
+                    <% messages[type].forEach( msg => {%>
+                        <li class="alert <%=type%>" ><%= msg %></li>
+                    <%});%>
+                <%}%>
+            <%});%>
+        </ul>
+
+    </div>
+
+    </header>

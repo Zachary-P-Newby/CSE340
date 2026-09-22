@@ -1,5 +1,30 @@
-import { getAllOrganizations, getOrganizationDetails } from '../models/organizations.js';
+import { getAllOrganizations, getOrganizationDetails, createOrganization } from '../models/organizations.js';
 import { getProjectsByOrganizationId } from '../models/projects.js';
+import { body, validationResult } from 'express-validator';
+
+
+//validation and sanitization rules for organization forms
+const organizationValidation = [
+    body('name')
+        .trim()
+        .notEmpty()
+        .withMessage('Organization name is required')
+        .isLength({ min: 3, max: 150 })
+        .withMessage('Organization name must be between 3 and 150 characters'),
+    body('description')
+        .trim()
+        .notEmpty()
+        .withMessage('Organization description is required')
+        .isLength({ max: 500 })
+        .withMessage('Organization description cannot exceed 500 characters'),
+    body('contactEmail')
+        .normalizeEmail()
+        .notEmpty()
+        .withMessage('Contact email is required')
+        .isEmail()
+        .withMessage('Please provide a valid email address')
+];
+
 
 //Define controller function
 const showOrganizationsPage = async (req, res)=>{
@@ -18,7 +43,9 @@ const showOrganizationDetailsPage = async (req, res) => {
     //if the organization does not exist the getOrganizationDetails will return 'null'
     //if so, do nothing to trigger 404 error
     if (organizationDetails == null){
-        res.render('./errors/404', {title});
+        return res.status(404).render('errors/404', {
+    title: 'Page Not Found'
+        });
     }
     else{
         res.render('organization', {title, organizationDetails, projects});
@@ -27,5 +54,42 @@ const showOrganizationDetailsPage = async (req, res) => {
     
 };
 
+const showNewOrganizationForm = async (req, res) => {
+    const title = 'Add New Organization';
+
+    res.render('new-organization', { title });
+}
+
+
+const processNewOrganizationForm = async (req, res) => {
+    // check for validation errors
+    const results = validationResult(req);
+    if (!results.isEmpty()) {
+        // Validation failed - loop through errors
+        results.array().forEach((error) => {
+            req.flash('error', error.msg);
+        });
+
+        // Redirect back to the new organization form
+        return res.redirect('/new-organization');
+    }
+    
+    const { name, description, contactEmail } = req.body;
+    const logoFilename = 'placeholder-logo.png'; // Use the placeholder logo for all new organizations
+
+    const organizationId = await createOrganization(name, description, contactEmail, logoFilename);
+    
+    //set a succes message
+    req.flash('success', 'Organization added successfully!');
+    
+    res.redirect(`/organization/${organizationId}`);
+};
+
+
 // Export any controller functions
-export { showOrganizationsPage, showOrganizationDetailsPage };
+export { 
+    showOrganizationsPage,
+    showOrganizationDetailsPage,
+    showNewOrganizationForm, 
+    processNewOrganizationForm,
+    organizationValidation };

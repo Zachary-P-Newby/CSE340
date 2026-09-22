@@ -15,8 +15,9 @@ const showCategoryDetailsPage = async (req, res) => {
     const category = await getCategoryById(ID);
 
     if (category == null){
-        const title = 'Page Not Found';
-        res.render('./errors/404', {title});
+        return res.status(404).render('errors/404', {
+    title: 'Page Not Found'
+  });
     }else{
 
     const title = category.category_name;
