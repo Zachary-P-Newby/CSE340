@@ -23,7 +23,7 @@ description text NOT NULL
 CREATE TABLE projects (
     project_id SERIAL PRIMARY KEY,
 	organization_id INTEGER NOT NULL,
-    title VARCHAR(25) NOT NULL,
+    title VARCHAR(100) NOT NULL,
     description TEXT,
     location TEXT NOT NULL,
     project_date DATE NOT NULL,
