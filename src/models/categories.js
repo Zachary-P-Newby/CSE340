@@ -29,7 +29,7 @@ const getCategoryById = async (id) =>{
       return result.rows.length > 0 ? result.rows[0] : null;
 };
 
-const getCategoriesByProject = async(project_id) =>{
+const getCategoriesByServiceProjectId = async(project_id) =>{
     const query =`
     SELECT 
     categories.category_id,
@@ -47,7 +47,24 @@ const getCategoriesByProject = async(project_id) =>{
     return result.rows;
 };
 
+const assignCategoryToProject = async (projectId, categoryId) =>{
+    const query = "INSERT INTO project_has_category (project_id, category_id) VALUES ($1, $2);";
+
+    const queryParams = [projectId, categoryId];
+    await db.query(query,queryParams);
+}
+
+const updateCategoryAssignments = async (projectId, categoryIds) =>{
+    //remove all categories for this projectId
+    const cleaningQuery = "DELETE FROM project_has_category WHERE project_id = $1";
+    const cleaningQueryParams = [projectId];
+    await db.query(cleaningQuery, cleaningQueryParams);
+
+    //assign new categories
+    categoryIds.forEach(id => {
+        assignCategoryToProject(projectId, id);
+    });
+};
 
 
-
-export { getAllCategories, getCategoryById, getCategoriesByProject};
+export { getAllCategories, getCategoryById, getCategoriesByServiceProjectId , updateCategoryAssignments};

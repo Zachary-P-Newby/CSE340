@@ -1,4 +1,4 @@
-import { getAllOrganizations, getOrganizationDetails, createOrganization } from '../models/organizations.js';
+import { getAllOrganizations, getOrganizationDetails, createOrganization, updateOrganization } from '../models/organizations.js';
 import { getProjectsByOrganizationId } from '../models/projects.js';
 import { body, validationResult } from 'express-validator';
 
@@ -85,6 +85,49 @@ const processNewOrganizationForm = async (req, res) => {
     res.redirect(`/organization/${organizationId}`);
 };
 
+const showEditOrganizationForm = async (req, res) => {
+    const title = 'Edit Organization';
+
+    const organizationId = req.params.id;
+
+    const organizationDetails = await getOrganizationDetails(organizationId);
+    //if the organization does not exist the getOrganizationDetails will return 'null'
+    //if so, do nothing to trigger 404 error
+    if (organizationDetails == null){
+        return res.status(404).render('errors/404', {
+    title: 'Page Not Found'
+        });
+    }
+    else{
+        res.render('edit-organization', {title, organizationId, organizationDetails});
+    }
+
+}
+
+
+const processEditOrganizationForm = async (req, res) => {
+    // check for validation errors
+    const results = validationResult(req);
+    if (!results.isEmpty()) {
+        // Validation failed - loop through errors
+        results.array().forEach((error) => {
+            req.flash('error', error.msg);
+        });
+
+        // Redirect back to the new organization form
+        return res.redirect('/edit-organization');
+    }
+    const organizationId = req.params.id;
+    const { name, description, contactEmail, logoFilename } = req.body;
+
+    await updateOrganization(organizationId, name, description, contactEmail, logoFilename);
+    
+    //set a succes message
+    req.flash('success', 'Organization updated successfully!');
+    
+    res.redirect(`/organization/${organizationId}`);
+};
+
 
 // Export any controller functions
 export { 
@@ -92,4 +135,6 @@ export {
     showOrganizationDetailsPage,
     showNewOrganizationForm, 
     processNewOrganizationForm,
-    organizationValidation };
+    organizationValidation,
+    showEditOrganizationForm,
+    processEditOrganizationForm };

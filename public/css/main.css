@@ -178,15 +178,20 @@ main li strong {
 
 /*Forms*/
 
-main form{
+form{
     display: flex;
     box-sizing: border-box;
     flex-direction: column;
 
-    &div label{
+    &.form-group{
         width: 100%;
+        display: flex;
+        flex-direction: row;
+        align-content: center;
     }
 }
+
+
 
 /* Footer */
 

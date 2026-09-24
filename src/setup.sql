@@ -1,3 +1,9 @@
+DROP TABLE project_has_category;
+DROP TABLE categories;
+DROP TABLE projects;
+DROP TABLE organizations;
+
+
 create table organizations (
 organization_id SERIAL PRIMARY KEY,
 organization_name VARCHAR(150) UNIQUE NOT NULL,
