@@ -3,11 +3,18 @@
         <h1>
             <%= title %>
         </h1>
-        <ul>
-            <%categories.forEach(category => {%>
-            
-            <li><strong><a href="/category/<%=category.category_id%>" ><%=category.category_name%></a></strong>: <%=category.description%></li>
-        <%});%>
-        </ul>
+        <div>
+            <ul>
+                <%categories.forEach(category => {%>
+                
+                <li><strong><a href="/category/<%=category.category_id%>" ><%=category.category_name%></a></strong>: <%=category.category_description%></li>
+            <%});%>
+            </ul>
+        
+        </div>
+        
+        <span>
+            <p><a href="/new-category">Create New Category</a></p>
+        </span>
     </main>
     <%- include('partials/footer') %>

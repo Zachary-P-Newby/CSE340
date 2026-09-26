@@ -17,7 +17,7 @@ logo_filename VARCHAR(255) NOT NULL
 CREATE TABLE categories (
 category_id SERIAL PRIMARY KEY,
 category_name VARCHAR(30) UNIQUE NOT NULL,
-description text NOT NULL
+category_description text NOT NULL
 );
 
 CREATE TABLE projects (
@@ -48,7 +48,7 @@ VALUES
 ('UnityServe Volunteers',  'A volunteer coordination group supporting local charities and service initiatives.','hello@unityserve.org','unityserve-logo.png');
 
 
-INSERT INTO categories (category_name, description)
+INSERT INTO categories (category_name, category_description)
 VALUES
 ('Donation Drive','Collect charity donations and give them to the needy.'),
 ('Education','Educational opportunities and teaching people practical skills.'),

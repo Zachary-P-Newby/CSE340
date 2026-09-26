@@ -1,7 +1,7 @@
 <%- include('partials/header') %>
     <main>     <h1><%= title %></h1>
         <section class="category_details">
-            <p><strong>Description:</strong> <%= category.description %></p>
+            <p><strong>Description:</strong> <%= category.category_description %></p>
 
             
 
@@ -15,7 +15,9 @@
 
             </ul>
             </div>
-
+            <span>
+                <p><a href="/edit-category/<%=category_id%>">Edit Category</a></p>
+            </span>
             
         </section>
     </main>

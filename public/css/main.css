@@ -31,6 +31,7 @@ body {
     color: var(--text);
     font-family: Arial, Helvetica, sans-serif;
     line-height: 1.6;
+    min-width: 100vw;
 }
 
 
@@ -176,19 +177,53 @@ main li strong {
     margin-right: 0.35rem;
 }
 
+main section span{
+    display: flex;
+    flex-direction: column;
+}
+
 /*Forms*/
 
 form{
     display: flex;
     box-sizing: border-box;
     flex-direction: column;
+    max-width:70vw;
+    align-items: center;
+    
+    
+    button{
+        max-width:100%;
+        border: #f28c28 .2rem solid;
+        border-radius: 1rem;
+        padding: auto;
+        min-width: 10vw;
+        min-height: 3vh;
+        }
 
-    &.form-group{
-        width: 100%;
+    div{
+        min-width: 100%;
+        justify-content: flex-start;
         display: flex;
         flex-direction: row;
-        align-content: center;
+        margin: 1vh 1vw;
+        
+        label{
+            margin-right: 2rem;
+            width: 10%;
+        }
+        
+        input, textarea, select{
+            flex-grow: 1;
+            max-width: 100%;
+
+            &:invalid{
+                background-color: #ebb6bb27;
+            }
+        }
+
     }
+    
 }
 
 

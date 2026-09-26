@@ -114,18 +114,23 @@ const processEditOrganizationForm = async (req, res) => {
             req.flash('error', error.msg);
         });
 
-        // Redirect back to the new organization form
+        // Redirect back to the edit organization form
         return res.redirect('/edit-organization');
     }
     const organizationId = req.params.id;
     const { name, description, contactEmail, logoFilename } = req.body;
 
-    await updateOrganization(organizationId, name, description, contactEmail, logoFilename);
+    try {
+        await updateOrganization(organizationId, name, description, contactEmail, logoFilename);
+        //set a succes message
+        req.flash('success', 'Organization updated successfully!');
+        res.redirect(`/organization/${organizationId}`);
+    } catch(error){
+        console.log("There was an error updating the organization:", error);
+        req.flash("error","There was an error updating the organization");
+        res.redirect('/edit-organization/${organizationId}');
+    };
     
-    //set a succes message
-    req.flash('success', 'Organization updated successfully!');
-    
-    res.redirect(`/organization/${organizationId}`);
 };
 
 
