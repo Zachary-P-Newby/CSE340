@@ -1,7 +1,9 @@
-DROP TABLE project_has_category;
+/*Cleanup Code */
+/*DROP TABLE project_has_category;
 DROP TABLE categories;
 DROP TABLE projects;
 DROP TABLE organizations;
+DROP TABLE roles*/
 
 
 create table organizations (
@@ -40,6 +42,29 @@ FOREIGN KEY (project_id) REFERENCES projects(project_id),
 FOREIGN KEY (category_id) REFERENCES categories(category_id),
 CONSTRAINT project_category_pk PRIMARY KEY (project_id, category_id)
 );
+
+
+
+CREATE TABLE roles(
+	role_id SERIAL PRIMARY KEY,
+	role_name VARCHAR(50) UNIQUE NOT NULL,
+	role_description TEXT
+);
+
+
+CREATE TABLE users(
+
+	user_id SERIAL PRIMARY KEY,
+	name VARCHAR(100) NOT NULL,
+	email VARCHAR(100) UNIQUE NOT NULL,
+	password_hash VARCHAR(225) NOT NULL,
+	role_id INT REFERENCES roles(role_id),
+	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
+
+
 
 INSERT INTO organizations (organization_name, description, contact_email, logo_filename)
 VALUES 
@@ -197,3 +222,17 @@ VALUES
 (14,1),
 (15,1);
 
+
+/* INSERT INTO roles (role_name, role_description) VALUES 
+    ('user', 'Standard user with basic access'),
+    ('admin', 'Administrator with full system access');
+
+INSERT INTO users (name, email, password_hash, role_id) VALUES
+('John Arbuckle', 'jarbuckle@gmail.com', 12344456667890009876, 1),
+('Brent Leroy', 'cornergas@outlook.com', 99315390134551344734, 2);
+
+-- Verify the data was inserted
+SELECT * FROM users u JOIN roles r ON u.role_id = r.role_id;
+
+--DELETE FROM USERS TEST
+DELETE FROM users;*/

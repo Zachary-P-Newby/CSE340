@@ -2,12 +2,6 @@
 Made with Duck.ai
 */
 
-/* Color palette
-   Blue:   #0b3d91
-   Orange: #f28c28
-   White:  #ffffff
-*/
-
 :root {
     --blue: #0b3d91;
     --dark-blue: #082b66;
@@ -201,7 +195,7 @@ form{
         min-height: 3vh;
         }
 
-    div{
+    .form-group{
         min-width: 100%;
         justify-content: flex-start;
         display: flex;
@@ -224,6 +218,11 @@ form{
 
     }
     
+}
+
+.assign-category-header
+{
+    text-align: center;
 }
 
 

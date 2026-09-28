@@ -141,7 +141,7 @@ const processEditCategoryForm = async (req, res) => {
     }
     catch (error) {
         console.error('Error creating new category:', error);
-        req.flash('error',"There was an error creating a new category.");
+        req.flash('error',"There was an error editing the category.");
         res.redirect(`/edit-category/${category_id}`);
     }
 }
