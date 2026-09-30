@@ -32,7 +32,9 @@ import {
   processUserRegistrationForm,
   showLoginForm,
   processLoginForm,
-  processLogout } from './controllers/users.js';
+  processLogout,
+  requireLogin,
+  showDashboard } from './controllers/users.js';
 
 import { showTestErrorPage } from "./controllers/errors.js";
 
@@ -88,7 +90,12 @@ router.get('/register', showUserRegistrationForm);
 router.post('/register', processUserRegistrationForm);
 
 //user login routes
-//router.get()
+router.get('/login', showLoginForm);
+router.post('/login',processLoginForm);
+router.get('/logout', processLogout);
+
+// Protected dashboard route
+router.get('/dashboard', requireLogin, showDashboard);
 
 // error handling routes
 router.get('/test-error',showTestErrorPage);

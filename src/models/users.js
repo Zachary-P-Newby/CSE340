@@ -1,5 +1,5 @@
 import db from "./db.js"
-
+import bcrypt from 'bcrypt';
 
 const createUser = async (name, email, password_hash) =>{
     const default_role = 'user';
@@ -39,16 +39,17 @@ const findUserByEmail = async (email) =>{
 };
 
 const verifyPassword = async (password, password_hash) => {
-    return bcrypt.compare(password, passwordHash);
+    return bcrypt.compare(password, password_hash);
 };
 
 const authenticateUser = async (inputEmail, password)=>{
-    const {user_id, name, email, password_hash, role_id} = findUserByEmail(inputEmail);
+    const userData = await findUserByEmail(inputEmail);
     
     if(userData == null){
         return userData
     }
     else{
+        const {user_id, name, email, password_hash, role_id} = userData;
         const isCorrect = verifyPassword(password, password_hash);
 
         if (isCorrect){

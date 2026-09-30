@@ -43,35 +43,50 @@ export const processUserRegistrationForm = async(req, res) => {
     
 };
 
-export const showLoginForm = (req, res)=>{
+export const showLoginForm = async (req, res)=>{
     const title = "Login";
     res.render("login", {title})
 }
 
-export const processLoginForm= (req, res)=>{
+export const processLoginForm= async (req, res)=>{
 
     const {email, password} = req.body;
 
-    const user = authenticateUser(email,password);
+    const user = await authenticateUser(email,password);
 
     if (user != null){
         req.session.user = user;
 
         req.flash("success", "Login was successful.");
         console.log("Login was successful. user: ",user);
-        res.redirect("/");
+        res.redirect("/dashboard");
     } else{
         req.flash("error", "Login failed");
         console.log("Login was a failure.");
         res.redirect("/login");
     }
 }
-
-export const processLogout = (req, res) =>{
-    if(req.session.user){
-        req.session.destroy();
+export const processLogout = async (req, res) => {
+    if (req.session.user) {
+        delete req.session.user;
     }
 
-    req.flash("success", "Logout was successful.");
-    res.redirect("/login");
+    req.flash('success', 'Logout successful!');
+    res.redirect('/login');
+};
+
+
+export const requireLogin = async (req, res, next) =>{
+    if(req.session && req.session.user){
+        next();
+    } else{
+        req.flash('error', 'You must login to access that page.');
+        res.redirect('/login');
+    }
+}
+
+export const showDashboard = async (req, res) =>{
+    const {name, email} = req.session.user;
+    const title = "Dashboard";
+    res.render("dashboard", {title, name, email});
 }
