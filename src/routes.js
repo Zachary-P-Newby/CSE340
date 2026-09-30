@@ -27,6 +27,13 @@ import {
   processNewCategoryForm,
   processEditCategoryForm,
   categoryValidation } from "./controllers/categories.js";
+import { 
+  showUserRegistrationForm,
+  processUserRegistrationForm,
+  showLoginForm,
+  processLoginForm,
+  processLogout } from './controllers/users.js';
+
 import { showTestErrorPage } from "./controllers/errors.js";
 
 const router = express.Router();
@@ -76,8 +83,12 @@ router.post('/assign-categories/:id', processAssignCategoriesForm);
 router.post('/new-category', categoryValidation, processNewCategoryForm);
 router.post('/edit-category/:id', categoryValidation, processEditCategoryForm);
 
-// Routes to handle the assign categories to project form
+//user registration routes
+router.get('/register', showUserRegistrationForm);
+router.post('/register', processUserRegistrationForm);
 
+//user login routes
+//router.get()
 
 // error handling routes
 router.get('/test-error',showTestErrorPage);

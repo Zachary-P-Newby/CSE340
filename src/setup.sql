@@ -1,9 +1,11 @@
 /*Cleanup Code */
-/*DROP TABLE project_has_category;
+DROP TABLE project_has_category;
 DROP TABLE categories;
 DROP TABLE projects;
 DROP TABLE organizations;
-DROP TABLE roles*/
+DROP TABLE users;
+DROP TABLE roles;
+
 
 
 create table organizations (
@@ -19,7 +21,7 @@ logo_filename VARCHAR(255) NOT NULL
 CREATE TABLE categories (
 category_id SERIAL PRIMARY KEY,
 category_name VARCHAR(30) UNIQUE NOT NULL,
-category_description text NOT NULL
+category_description text NULL
 );
 
 CREATE TABLE projects (

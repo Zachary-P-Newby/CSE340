@@ -11,10 +11,8 @@ const categoryValidation = [
         .withMessage('Category name must be between 3 and 100 characters'),
     body('category_description')
         .trim()
-        .notEmpty()
-        .withMessage('Category description is required')
-        .isLength({ min: 3, max: 1000 })
-        .withMessage('Category description must be between 3 and 1000 characters'),
+        .isLength({ min: 0, max: 1000 })
+        .withMessage('Category description must be less 1000 characters'),
 ];
 
 
@@ -102,10 +100,9 @@ const processNewCategoryForm = async (req, res) => {
     
     // Extract form data from req.body
     const category_name = req.body.category_name;
-    const category_description = req.body.category_description;
 
     try {
-        const category_id = await createCategory(category_name, category_description);
+        const category_id = await createCategory(category_name);
         req.flash("success", "Category successfully created");
         res.redirect(`/category/${category_id}`)
     }
