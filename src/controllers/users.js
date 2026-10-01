@@ -90,3 +90,29 @@ export const showDashboard = async (req, res) =>{
     const title = "Dashboard";
     res.render("dashboard", {title, name, email});
 }
+
+/**
+ * Middleware factory to require specific role for route access
+ * Returns middleware that checks if user has the required role
+ * 
+ * @param {string} role - The role name required (e.g., 'admin', 'user')
+ * @returns {Function} Express middleware function
+ */
+export const requireRole = (role) =>{
+
+    return (req, res, next)=> {
+        if(req.session.user){
+            if(req.session.user.role_name == role){
+                next();
+            }
+            else{
+                req.flash("error", "User does not have sufficent privelages.");
+            return res.redirect("/");
+            }
+        }
+        else{
+            req.flash("error", "You must be logged in to access this page.");
+            return res.redirect("/login");
+        }
+    }
+} 

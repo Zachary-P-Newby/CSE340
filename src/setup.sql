@@ -66,8 +66,6 @@ CREATE TABLE users(
 
 
 
-
-
 INSERT INTO organizations (organization_name, description, contact_email, logo_filename)
 VALUES 
 ('BrightFuture Builders', 'A nonprofit focused on improving community infrastructure through sustainable construction projects.', 'info@brightfuturebuilders.org', 'brightfuture-logo.png'),

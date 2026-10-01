@@ -16,7 +16,13 @@
             </ul>
             </div>
             <span>
-                <p><a href="/edit-category/<%=category_id%>">Edit Category</a></p>
+
+            <%if(user && user.role_name === 'admin'){%>
+
+               <p><a href="/edit-category/<%=category_id%>">Edit Category</a></p>
+
+            <% } %>
+                
             </span>
             
         </section>

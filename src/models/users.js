@@ -22,10 +22,11 @@ const createUser = async (name, email, password_hash) =>{
 
 const findUserByEmail = async (email) =>{
     const query = `
-        SELECT user_id, name, email, password_hash, role_id
-        FROM users
-        WHERE email = $1
-    `;
+    SELECT u.user_id, u.email, u.password_hash, r.role_name 
+    FROM users u
+    JOIN roles r ON u.role_id = r.role_id
+    WHERE u.email = $1
+`;
 
     const queryParams = [email];
 
@@ -49,11 +50,11 @@ const authenticateUser = async (inputEmail, password)=>{
         return userData
     }
     else{
-        const {user_id, name, email, password_hash, role_id} = userData;
+        const {user_id, name, email, password_hash, role_name} = userData;
         const isCorrect = verifyPassword(password, password_hash);
 
         if (isCorrect){
-            return {user_id, name, email, role_id};
+            return {user_id, name, email, role_name};
         }
         else{
             return null;

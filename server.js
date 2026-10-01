@@ -60,19 +60,22 @@ app.use((req, res, next) =>{
   next(); // pass control to the next middleware or route
 });
 
-//Middleware to make NODE_ENV availible to all templates
+//set up res.locals values
 app.use((req,res, next) => {
   res.locals.isLoggedIn = false;
   if (req.session && req.session.user){
     res.locals.isLoggedIn = true;
+
+    res.locals.user = req.session.user;
+  }
+  else{
+     res.locals.user = null;
   }
 
 
   res.locals.NODE_ENV = NODE_ENV;
   next();
 })
-
-
 
 //use the imported router tp handle routes
 app.use(router);
