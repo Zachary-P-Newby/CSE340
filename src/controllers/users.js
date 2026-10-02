@@ -1,26 +1,13 @@
 import bcrypt from 'bcrypt';
-import { createUser, authenticateUser } from '../models/users.js';
-import {body, validationResult} from 'express-validator';
+import { createUser, authenticateUser, getAllRegisteredUsers } from '../models/users.js';
 
-export const showUserRegistrationForm = async (req, res) =>{
+const showUserRegistrationForm = async (req, res) =>{
     const title = 'Add new user';
     res.render('register', {title});
 
 }
 
-export const processUserRegistrationForm = async(req, res) => {
-
-    /*const errors = validationResult(req);
-    if (errors.isEmpty() == false){
-        errors.array.forEach(error => {
-            console.log(error);
-            req.flash('error', error.msg);
-        });
-    }
-    else{
-        
-        
-    }*/
+const processUserRegistrationForm = async(req, res) => {
 
     const {name, email, password} = req.body;
 
@@ -43,12 +30,12 @@ export const processUserRegistrationForm = async(req, res) => {
     
 };
 
-export const showLoginForm = async (req, res)=>{
+const showLoginForm = async (req, res)=>{
     const title = "Login";
     res.render("login", {title})
 }
 
-export const processLoginForm= async (req, res)=>{
+const processLoginForm= async (req, res)=>{
 
     const {email, password} = req.body;
 
@@ -66,7 +53,8 @@ export const processLoginForm= async (req, res)=>{
         res.redirect("/login");
     }
 }
-export const processLogout = async (req, res) => {
+
+const processLogout = async (req, res) => {
     if (req.session.user) {
         delete req.session.user;
     }
@@ -76,7 +64,7 @@ export const processLogout = async (req, res) => {
 };
 
 
-export const requireLogin = async (req, res, next) =>{
+const requireLogin = async (req, res, next) =>{
     if(req.session && req.session.user){
         next();
     } else{
@@ -85,7 +73,7 @@ export const requireLogin = async (req, res, next) =>{
     }
 }
 
-export const showDashboard = async (req, res) =>{
+const showDashboard = async (req, res) =>{
     const {name, email} = req.session.user;
     const title = "Dashboard";
     res.render("dashboard", {title, name, email});
@@ -98,7 +86,7 @@ export const showDashboard = async (req, res) =>{
  * @param {string} role - The role name required (e.g., 'admin', 'user')
  * @returns {Function} Express middleware function
  */
-export const requireRole = (role) =>{
+const requireRole = (role) =>{
 
     return (req, res, next)=> {
         if(req.session.user){
@@ -106,13 +94,22 @@ export const requireRole = (role) =>{
                 next();
             }
             else{
-                req.flash("error", "User does not have sufficent privelages.");
+                req.flash("error", "You do not have sufficent privileges to access that page.");
             return res.redirect("/");
             }
         }
         else{
-            req.flash("error", "You must be logged in to access this page.");
+            req.flash("error", "You must be logged in to access that page.");
             return res.redirect("/login");
         }
     }
 } 
+
+const showRegisteredUsers = async (req, res) =>{
+    const title = "Registered Users";
+    const regUsers = await getAllRegisteredUsers();
+
+    res.render("registered-users", {title, regUsers});
+};
+
+export {showUserRegistrationForm, processUserRegistrationForm, showLoginForm, processLoginForm, processLogout, requireLogin, showDashboard, requireRole, showRegisteredUsers}
